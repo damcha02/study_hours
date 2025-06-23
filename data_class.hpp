@@ -1,0 +1,38 @@
+#pragma once
+
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <map>
+#include <set>
+
+//not from class Data:
+std::string convertMinsToHrs(std::string minutes);
+
+class Data {
+    private:
+        std::map<std::string, std::vector<std::string>> all_data_m;
+        std::map<std::string, std::vector<std::string>> label_data_m;
+        std::set<std::string> subjects_m; 
+        std::string filepath_m;
+    public:
+        Data(std::string filepath); 
+        void readData();
+        void viewData(std::string subject);
+        void viewAllData();
+        void editData(std::string subject);
+        void printCategoriesToEdit(std::string subject);
+        void drawProgressBar(std::string subject);
+        void readMetaData();
+        void plan(std::string subject);
+};
+
+
+
