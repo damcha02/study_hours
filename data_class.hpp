@@ -13,6 +13,9 @@
 #include <map>
 #include <set>
 
+#include <chrono>
+#include <thread>
+
 //not from class Data:
 std::string convertMinsToHrs(std::string minutes);
 
@@ -25,6 +28,8 @@ class Data {
     public:
         Data(std::string filepath); 
         void readData();
+        std::string chooseSubject();
+        std::string chooseAction(std::string subject);
         void viewData(std::string subject);
         void viewAllData();
         void editData(std::string subject);
@@ -33,6 +38,5 @@ class Data {
         void readMetaData();
         void plan(std::string subject);
 };
-
 
 

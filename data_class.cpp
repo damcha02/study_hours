@@ -1,5 +1,6 @@
 #include "data_class.hpp"
 
+
 std::string convertMinsToHrs(std::string minutes){
     double mins = std::stod(minutes);
     double hrs = mins / 60.0;
@@ -11,6 +12,7 @@ Data::Data(std::string filepath) : filepath_m(filepath){
     filepath_m = "../" + filepath_m;
 
     readData(); 
+    readMetaData();
 } //ctor
 
 void Data::readData(){
@@ -35,6 +37,61 @@ void Data::readData(){
         all_data_m[data[0]] = std::vector<std::string>(data.begin() + 1, data.end());
     }
 }
+std::string Data::chooseSubject(){
+    std::cout << "Pick a subject to view or edit the workload of." << std::endl;
+    std::vector<std::string> vec;
+    int count = 1;
+    for(auto it : all_data_m){
+        std::cout << "\t" << it.first << std::setw(20 - it.first.size()) << "(" << count << ")\n";
+        vec.push_back(it.first);
+        ++count;
+    }
+    std::cout << "\t" << "View All" << std::setw(20 - 8) << "(" << count << ")\n" << std::endl;
+    vec.push_back("All");
+
+    int input;
+    std::cout << ">> ";
+    std::cin >> input;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    if(input > vec.size() || input < 0){
+        throw std::runtime_error("invalid input, try again.");
+    }
+    std::cout << "Selected: " << vec[input - 1] << std::endl;
+    return vec[input - 1];
+}
+
+std::string Data::chooseAction(std::string subject){
+    bool flag = (subject == "All") ? false : true;
+    std::string action;
+
+    if(flag == true) {
+        std::cout << "\nPick your action." << std::endl;
+        std::cout << std::setw(15) << "View (1)" << std::setw(15) << "Edit (2)" << std::setw(15) << "Plan (3)" << std::setw(15) << "Quit (q)" << std::endl; 
+        std::string input; 
+        std::cout << ">> ";
+        std::getline(std::cin, input);
+        std::cout << std::string(40, '-') << "\n";
+
+        if(input == "q" || input == "Q"){
+            return "quit";
+        }
+        if(input == "2"){
+            action = "Edit";
+        } else if(input == "1" || input.empty()){
+            action = "View";
+        } else if(input == "3"){
+            action = "Plan";
+        }
+        else {
+            std::cout << "no valid action detected, please run the program again." << std::endl;
+            action = ":(";
+        }
+    } else action = "View";
+
+    std::cout << "Selected: " << action << '\n' << std::endl;
+    return action;
+}
+
 
 void Data::readMetaData(){
     //reads from .metadata.txt
