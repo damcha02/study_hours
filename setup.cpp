@@ -78,7 +78,8 @@ std::string takeInput(){
     std::string input; 
     std::cout << ">> ";
     
-    std::cin >> input;
+    // std::cin >> input;
+    std::getline(std::cin, input);
     if(input.empty()) input = "NAN";
     return input;
 }
@@ -187,9 +188,10 @@ int main(){
     //write rest of data
     std::ofstream mydata(filepath_data);
     if(!mydata.is_open()) throw std::runtime_error("data.csv file not found");
-
+    
     //iterate over metadata and ask for each part the exact number or do default 0
     for(auto it : metadata){
+        std::cout << "\n--------------------------------------------------------------------\n";
         std::cout << "\nLet's insert the trackable data for -> " << it.first << std::endl;
         std::cout << "If you don't know the exact parameter you can just insert 0 and change it later in the data.csv file\n" << std::endl;
         subjects[it.first] = {};
