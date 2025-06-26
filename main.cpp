@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <cstdlib>
 
 
 const static std::string path = "data/data.csv";
@@ -24,6 +25,13 @@ void initializeProgram(){
 }
 
 
+void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 //data stored
 //NUMPDE: total minutes, minutes of videos, minutes of exercises, amount of old exams
 //Fluid: total serien, amount of serien fluid 1, amount of serien fluid 2, amount of old exams
@@ -31,6 +39,7 @@ void initializeProgram(){
 //WUS: total serien, amount of serien, amount of old exams
 
 int main(){
+    clearScreen();
     
     printTextWithDelay("WELCOME TO THE STUDY TRACKER\n", default_delay);
 
