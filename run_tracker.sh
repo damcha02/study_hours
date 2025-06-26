@@ -4,4 +4,6 @@ cd build
 # recompile if new changes
 cmake ..
 make 
+
+clear
 ./tracker

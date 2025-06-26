@@ -3,4 +3,8 @@
 mkdir build
 cd build
 cmake ..
-make && ./setup
+make 
+
+clear 
+
+./setup
