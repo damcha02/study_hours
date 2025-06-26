@@ -10,8 +10,8 @@
 #include <filesystem>
 #include <fstream>
 
-static std::string filepath_metadata = "data/.metadata.txt";
-static std::string filepath_data = "data/data.csv";
+static std::string filepath_metadata = "../data/.metadata.txt";
+static std::string filepath_data = "../data/data.csv";
 
 static int default_delay = 10;
 typedef std::map<std::string,std::vector<std::string>> dataTYPE;
@@ -181,7 +181,7 @@ int main(){
     printTextWithDelay("WELCOME TO THE PROGRESS TRACKER YOU DIDN'T NEED, BUT NOW YOU HAVE IT. :)\n", default_delay);
     printTextWithDelay("Let's start by setting up your data to track.", default_delay);    
     //create a directory 
-    fs::create_directory("data");
+    fs::create_directory("../data");
 
     write_metadata(metadata);
 
