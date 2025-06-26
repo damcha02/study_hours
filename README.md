@@ -1,6 +1,6 @@
-# Study Hours 
-### Progress Tracker
+# *Study Hours*  
 
+Study Hours is a progress tracker for a better learning experience
 ## How to use
 Clone the git repo, then go into the directory. 
 
