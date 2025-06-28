@@ -5,14 +5,14 @@ Study Hours is a progress tracker for a better learning experience
 Clone the git repo, then go into the directory. 
 
 #### Linux terminal
-If you have a Linux terminal, you can run the shell script `setup.sh`, follow the instructions of the script. Afterward the setup phase you can run the `run_tracker.sh` script for the tracker itself, or you can always visit the `build` directory and run the executable.
+If you have a Linux terminal, you can run the shell script `setup.sh <optional_custom_dir_name>`, follow the instructions of the script. Afterward the setup phase you can run the `run_tracker.sh` script for the tracker itself, or you can always visit the `build` directory and run the executable.
 
 ```
 git clone https://github.com/damcha02/study_hours.git
 
 cd study_hours
 
-./setup.sh
+./setup.sh <optional_custom_dir_name>
 
 ./run_tracker.sh
 ```
@@ -28,7 +28,7 @@ If you have a windows or mac terminal, then good luck, I hope it works.
 - in the build directory run cmake
 - then run make
 - then you should have two executable files `setup` and `tracker`
-- run `setup`
+- run `setup` (you can add  a new name for the parent directory at the end) `<dir>`
 - run `tracker`
 
 ```
@@ -36,7 +36,7 @@ mkdir build
 cd build
 cmake ..
 make
-./setup
+./setup <dir>
 ./tracker
 ```
 
