@@ -1,6 +1,29 @@
 # *Study Hours*  
 
 Study Hours is a progress tracker for a better learning experience
+
+![Study Tracker](assets/chooseSubject.png)
+
+You can see your progress and track it very easily. The total parameter tells you how much work in total there is. The other parameters tell you how much work you still have to do.
+
+![View All](assets/viewAll.png)
+
+There are different actions you can do with this tracker.
+
+![Choose Action](assets/chooseAction.png)
+
+
+You can edit the parameters after you have finished some work, or when you want to add work.
+
+![Edit Work](assets/editedWork.png)
+
+You can also plan, to see how much work you need to do per day of a certain subject
+
+![Plan Work](assets/planWork.png)
+
+Enjoy :)
+
+
 ## How to use
 Clone the git repo, then go into the directory. 
 
