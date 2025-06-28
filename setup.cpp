@@ -173,8 +173,46 @@ void write_metadata(dataTYPE& metadata){
     mymetadata.close();
 }
 
+void rename_parent_dir(int argc, char **argv){
+    namespace fs = std::filesystem;
+    
+    fs::path cwd = fs::current_path();
+    fs::path old_dir = cwd.parent_path();
+    fs::path parent_of_old_dir = old_dir.parent_path();
 
-int main(){    
+    fs::path new_dir = parent_of_old_dir / argv[1];
+
+    if(old_dir.filename().string() == new_dir.filename().string()){
+       std::cerr << "Directory with this name already exists\n";
+       std::cout << "This might overwrite all your previously configured data files, do you still want to continue? Y/n ";
+       std::string input;
+       std::cin >> input;
+       if(input != "Y" && input != "y"){
+            std::exit(EXIT_FAILURE);
+       }
+    }
+    
+    try{
+        fs::rename(old_dir, new_dir);
+        std::cout << "Renamed “"
+                << old_dir.filename().string()
+                << "” to “" << argv[1] << "”\n";
+    } catch (const fs::filesystem_error& e){
+        throw std::ios_base::failure(
+            std::string("Failed to rename ‘") +
+            old_dir.string() + "’ to ‘" + new_dir.string() + "’: " + e.what());    
+    }
+}
+
+int main(int argc, char **argv){  
+    if (argc > 3) {
+        std::cerr << "Usage: " << argv[0] << " new_name\n";
+        return 1;
+    }
+    if(argc > 1) {
+        rename_parent_dir(argc, argv);
+    }
+    
     std::map<std::string, std::vector<std::string>> metadata;
     std::map<std::string, std::vector<std::string>> subjects;
 

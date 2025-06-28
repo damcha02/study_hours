@@ -7,4 +7,4 @@ make
 
 clear 
 
-./setup
+./setup $1
