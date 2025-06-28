@@ -234,7 +234,7 @@ int main(int argc, char **argv){
         std::cout << "If you don't know the exact parameter you can just insert 0 and change it later in the data.csv file\n" << std::endl;
         subjects[it.first] = {};
         for(int i = 0; i < it.second.size() - 1; i += 2){
-            std::cout << "Insert amount of " << it.second[i + 1] << " for the " << it.second[i] << " parameter\n";
+            std::cout << "Insert amount of " << it.second[i + 1] << " that you still have left to do for the " << it.second[i] << " parameter\n";
             std::string input = takeInput();
             //how to check if its a number or not?
             if(!checkIfNumberInput(input)){
