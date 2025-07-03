@@ -136,7 +136,12 @@ void write_metadata(dataTYPE& metadata){
     
     printTextWithDelay("Are you ready to set up your own tracker? Y/n ", default_delay);
     std::string ready = takeInput();
-    if(ready != "Y" && ready != "y"){ throw std::runtime_error("Read the instructions again if not ready or ask customer support");}
+    if(ready != "Y" && ready != "y"){ try {throw std::runtime_error("Read the instructions again if not ready or ask customer support");} 
+        catch(const std::exception& e){
+            std::cerr << e.what() << std::endl;
+        }
+        std::exit(EXIT_FAILURE);
+    }
     
     bool done = false;
     
