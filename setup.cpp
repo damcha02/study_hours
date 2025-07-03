@@ -84,32 +84,40 @@ std::string takeInput(){
     return input;
 }
 
-bool insertOneMore(){
-    std::string text = "Would you like to add another parameter? Y/n ";
-    printTextWithDelay(text, default_delay);
-    
-    std::string input = takeInput();
-    
-    if(input != "y" && input != "Y") return false;
-    return true;
-}
-
 void insertParameter(std::string subject, dataTYPE& metadata){
-    std::string text2 = "What is your next parameter for ";
-    text2 += subject;
-    text2 += "?\n";
-    printTextWithDelay(text2, default_delay);
-    
-    std::string input = takeInput();
-    metadata[subject].push_back(input);
-    
-    std::string unit_text = "What unit is your ";
-    unit_text += input;
-    unit_text += "?\n";
-    printTextWithDelay(unit_text, default_delay);
-    
-    std::string unit = takeInput();
-    metadata[subject].push_back(unit);
+    bool insertOneMore = true;
+    while(insertOneMore){
+        std::string text = "Would you like to add another parameter? Y/n ";
+        printTextWithDelay(text, default_delay);
+        
+        std::string input = takeInput();
+
+        if(input == "N" || input == "n") {insertOneMore = false; continue;}
+        if((input != "N" && input != "n") && (input != "Y" && input != "y")) 
+        {try {throw std::runtime_error("incorrect input, try again");}
+                                                catch(const std::exception& e){
+                                                    std::cerr << e.what() << std::endl; continue;
+                                                }
+        }
+
+        std::string text2 = "What is your next parameter for ";
+        text2 += subject;
+        text2 += "?\n";
+        printTextWithDelay(text2, default_delay);
+        
+        std::string parameter = takeInput();
+        metadata[subject].push_back(parameter);
+        
+        std::string unit_text = "What unit is your ";
+        unit_text += parameter;
+        unit_text += "?\n";
+        printTextWithDelay(unit_text, default_delay);
+        
+        std::string unit = takeInput();
+        metadata[subject].push_back(unit);
+
+    }
+
 }
 
 bool checkIfNumberInput(std::string input){
@@ -149,7 +157,13 @@ void write_metadata(dataTYPE& metadata){
         printTextWithDelay("Do you want to add a new subject? Y/n ", default_delay);
         std::string add_new = takeInput();
         //TODO add finish text
-        if(add_new != "Y" && add_new != "y"){ std::cout << "Metadata setup is finished" << std::endl; done = true; continue;}
+        if(add_new == "N" || add_new == "n"){ std::cout << "Metadata setup is finished" << std::endl; done = true; continue;}
+        if((add_new != "N" && add_new != "n") && (add_new != "Y" && add_new != "y")) 
+        {try {throw std::runtime_error("incorrect input, try again");}
+                                                catch(const std::exception& e){
+                                                    std::cerr << e.what() << std::endl; continue;
+                                                }
+        }
     
         printTextWithDelay("You can now input the name of the subject to add\n", default_delay);
         std::string subject_one = takeInput();
@@ -163,8 +177,8 @@ void write_metadata(dataTYPE& metadata){
     
         std::string unit_total = takeInput();
         metadata[subject_one].push_back(unit_total);
-    
-        while(insertOneMore()) {insertParameter(subject_one, metadata);}
+
+        insertParameter(subject_one, metadata);
     }
     
     //write metadata to metadatafile
@@ -209,26 +223,8 @@ void rename_parent_dir(int argc, char **argv){
     }
 }
 
-int main(int argc, char **argv){  
-    if (argc > 3) {
-        std::cerr << "Usage: " << argv[0] << " new_name\n";
-        return 1;
-    }
-    if(argc > 1) {
-        rename_parent_dir(argc, argv);
-    }
-    
-    std::map<std::string, std::vector<std::string>> metadata;
-    std::map<std::string, std::vector<std::string>> subjects;
-
-    printTextWithDelay("WELCOME TO THE PROGRESS TRACKER YOU DIDN'T NEED, BUT NOW YOU HAVE IT. :)\n", default_delay);
-    printTextWithDelay("Let's start by setting up your data to track.", default_delay);    
-    //create a directory 
-    fs::create_directory("../data");
-
-    write_metadata(metadata);
-
-    //write rest of data
+void write_data(dataTYPE& metadata, dataTYPE& subjects){
+//write rest of data
     std::ofstream mydata(filepath_data);
     if(!mydata.is_open()) throw std::runtime_error("data.csv file not found");
     
@@ -237,8 +233,22 @@ int main(int argc, char **argv){
         std::cout << "\n--------------------------------------------------------------------\n";
         std::cout << "\nLet's insert the trackable data for -> " << it.first << std::endl;
         std::cout << "If you don't know the exact parameter you can just insert 0 and change it later in the data.csv file\n" << std::endl;
-        subjects[it.first] = {};
-        for(int i = 0; i < it.second.size() - 1; i += 2){
+        subjects[it.first] = {}; //intialize an empty vector
+        
+        //Insert the Total
+        std::cout << "Insert amount of " << it.second[1] << " which is the Total work that there is for this subject\n";
+        std::string input = takeInput();
+        //how to check if its a number or not?
+        if(!checkIfNumberInput(input)){
+            do{
+                input = takeInput();
+
+            }while(!checkIfNumberInput(input));
+        }
+        //input should be good here
+        subjects[it.first].push_back(input);    
+
+        for(int i = 2; i < it.second.size() - 1; i += 2){
             std::cout << "Insert amount of " << it.second[i + 1] << " that you still have left to do for the " << it.second[i] << " parameter\n";
             std::string input = takeInput();
             //how to check if its a number or not?
@@ -263,6 +273,29 @@ int main(int argc, char **argv){
 
     
     mydata.close();
+}
+
+int main(int argc, char **argv){  
+    if (argc > 3) {
+        std::cerr << "Usage: " << argv[0] << " new_name\n";
+        return 1;
+    }
+    if(argc > 1) {
+        rename_parent_dir(argc, argv);
+    }
+    
+    std::map<std::string, std::vector<std::string>> metadata;
+    std::map<std::string, std::vector<std::string>> subjects;
+
+    printTextWithDelay("WELCOME TO THE PROGRESS TRACKER YOU DIDN'T NEED, BUT NOW YOU HAVE IT. :)\n", default_delay);
+    printTextWithDelay("Let's start by setting up your data to track.", default_delay);    
+    //create a directory 
+    fs::create_directory("../data");
+
+    write_metadata(metadata);
+
+    write_data(metadata, subjects);
+    
     std::cout << "The setup is fully finished, you can now run the normal tracker and view your progress\n\n" 
         << "ENJOY :)" << std::endl;
     return 0;
