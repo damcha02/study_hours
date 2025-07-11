@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <string_view>
 
 #include <string>
 #include <vector>
@@ -17,7 +18,7 @@
 #include <thread>
 
 //not from class Data:
-std::string convertMinsToHrs(std::string minutes);
+std::string convertMinsToHrs(std::string& minutes);
 
 class Data {
     private:
@@ -26,7 +27,7 @@ class Data {
         std::set<std::string> subjects_m; 
         std::string filepath_m;
     public:
-        Data(std::string filepath); 
+        Data(std::string_view filepath); 
         void readData();
         std::string chooseSubject();
         std::string chooseAction(std::string subject);
