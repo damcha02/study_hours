@@ -5,11 +5,11 @@
 #include <cstdlib>
 
 
-const static std::string path = "data/data.csv";
-static constexpr int default_delay = 45;
+const constexpr std::string_view path                = "data/data.csv";
+static constexpr int             default_delay       = 45;
 
-void printTextWithDelay(std::string text, int delay){
-    // std::string text = "WELCOME\n";
+void printTextWithDelay(std::string_view text, int delay){
+    // std::string_view text = "WELCOME\n";
     std::cout << std::endl;
 
     for (char c : text) {
@@ -19,10 +19,10 @@ void printTextWithDelay(std::string text, int delay){
     std::cout << std::endl;
 }
 
-void initializeProgram(){
-    printTextWithDelay("FIRST WE NEED TO INITIALIZE THIS PROGRAM.\n", default_delay);
-    printTextWithDelay("TO DO THIS PLEASE ENTER YOUR ", default_delay);
-}
+// void initializeProgram(){
+//     printTextWithDelay("FIRST WE NEED TO INITIALIZE THIS PROGRAM.\n", default_delay);
+//     printTextWithDelay("TO DO THIS PLEASE ENTER YOUR ", default_delay);
+// }
 
 
 void clearScreen() {
@@ -46,21 +46,33 @@ int main(){
     // printTextWithDelay("WHAT DO YOU WANT TO DO?");
     
     Data data_obj(path);
+    bool done = false;
+    while(!done){
+        std::string subject = data_obj.chooseSubject();
+        std::string action = data_obj.chooseAction(subject);
 
-    std::string subject = data_obj.chooseSubject();
-    std::string action = data_obj.chooseAction(subject);
 
-
-    if(action == "View") {
-        if(subject == "All"){
-            data_obj.viewAllData();
+        if(action == "View") {
+            if(subject == "All"){
+                data_obj.viewAllData();
+            }
+            else data_obj.viewData(subject);
         }
-        else data_obj.viewData(subject);
+        else if(action == "Edit") 
+            data_obj.editData(subject);
+        else if(action == "Plan") 
+            data_obj.plan(subject);
+        else if(action == "quit") 
+            done = true;
+    
+        printTextWithDelay("\n\n(c) continue \t\t (q) quit", default_delay);
+        std::cout << ">> ";
+        std::string input;
+        std::cin >> input;
+        done = (input == "c" || input == "C") ? false : true;
+        if(!done) clearScreen();
     }
-    else if(action == "Edit") data_obj.editData(subject);
-    else if(action == "Plan") data_obj.plan(subject);
-    else if(action == "quit") return 0;
 
-
+    std::cout << "Goodbye" << std::endl;
     return 0;
 }

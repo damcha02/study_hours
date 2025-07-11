@@ -1,14 +1,14 @@
 #include "data_class.hpp"
 
 
-std::string convertMinsToHrs(std::string minutes){
+std::string convertMinsToHrs(std::string& minutes){
     double mins = std::stod(minutes);
     double hrs = mins / 60.0;
     std::string hours = std::to_string(hrs);
     return hours;
 }
 
-Data::Data(std::string filepath) : filepath_m(filepath){
+Data::Data(std::string_view filepath) : filepath_m(filepath){
     filepath_m = "../" + filepath_m;
 
     readData(); 
