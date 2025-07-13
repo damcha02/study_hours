@@ -173,8 +173,19 @@ void Data::viewData(std::string subject){
     
     std::vector<int> alignment = findOutAlignment(label_data_m[subject]);
     std::cout << subject; drawProgressBar(subject);
+    
+    //print the total amount that is left
+    int total_left = 0;
+    for(int i = 1; i < all_data_m[subject].size(); ++i){
+        total_left += std::stoi(all_data_m[subject][i]);
+    }
+    std::cout << std::setw(alignment[0] + 5) << "Total Left" << std::setw(alignment[1] - 5) << "" << total_left << " " << label_data_m[subject][1];
+    if(label_data_m[subject][1] == "mins"){
+        std::cout << std::setw(5) << "" << convertMinsToHrs(all_data_m[subject][0]) << " hrs";
+    }
+    std::cout << std::endl;
 
-    for(int i = 0, j = 0; i < all_data_m[subject].size(); ++i, j += 2){
+    for(int i = 1, j = 2; i < all_data_m[subject].size(); ++i, j += 2){
         std::cout << std::setw(alignment[j]) << label_data_m[subject][j] << std::setw(alignment[j + 1]) << "" << all_data_m[subject][i] << " " << label_data_m[subject][j + 1];
         if(label_data_m[subject][j + 1] == "mins"){
             std::cout << std::setw(5) << "" << convertMinsToHrs(all_data_m[subject][i]) << " hrs";
@@ -280,5 +291,10 @@ void Data::drawProgressBar(std::string subject){
         else std::cout << " ";
     }
     std::cout << "] " << int(percent) << " %\n";
+
+    //TODO: add total - total left / totall
+    std::cout << "\t\t\t" << done << "/" << total << " " << label_data_m[subject][1] << std::endl;
+
+
     std::cout << std::endl;
 }
