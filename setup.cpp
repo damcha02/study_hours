@@ -9,9 +9,15 @@
 
 #include <filesystem>
 #include <fstream>
+#include "data_class.hpp"
 
+static std::string_view filepath_instructions = "../assets/_setup_instructions.txt";
 static std::string filepath_metadata = "../data/.metadata.txt";
 static std::string filepath_data = "../data/data.csv";
+
+//example files
+const constexpr std::string_view example_path = "../assets/_example.csv";
+const constexpr std::string_view exampleMetapath = "../assets/_example.txt";
 
 static int default_delay = 10;
 typedef std::map<std::string,std::vector<std::string>> dataTYPE;
@@ -35,42 +41,26 @@ void printTextWithDelay(std::string text, int delay){
     }
 }
 
-void printExample(){
+void printInformation(){
+    std::string filepath(filepath_instructions);
+    std::fstream instructionFile;
+    instructionFile.open(filepath, std::ios::in);
+
+    if(!instructionFile.is_open()){
+        std::cout << "Failed to open file: " << filepath << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    std::string line;
+
+    while(std::getline(instructionFile, line)){
+        printTextWithDelay(line, default_delay);
+    }
+
     std::string text = "Here is an example from Danil's 6th semester:\n";
     printTextWithDelay(text, default_delay);
-
-    std::cout << "\nFluid\n" 
-            << "\tTotal:          17 material\n" 
-            << "\tFluid 1:        6 exercises\n"
-            << "\tFluid 2:        6 exercises\n"
-            << "\tPast exams:     5 exams\n";
-    std::cout << "\nNUMPDE\n"
-            << "\tTotal:          7517 mins\n"
-            << "\tVideos:         1139 mins\n"
-            << "\tExercises:      3707 mins\n";
-    std::cout << "\nStatPhys\n"
-            << "\tTotal:          26 material\n"
-            << "\tVideos:         12 lectures\n"
-            << "\tExercises:      9 exercises\n"
-            << "\tPast exams:     5 exams\n";
-    std::cout << "\nWUS\n"
-            << "\tTotal:          17 material\n"
-            << "\tExercises:      12 exercises\n"
-            << "\tPast exams:     5 exams\n"; 
-}
-
-void printInformation(){
-    std::string sometext;
-    sometext = "The normal setup looks something like this:\n";
-    sometext += "Total of material, material 1, material 2, maybe #exams?\n";
-    sometext += "The total is all the work of the subject and the other parameters are the to do's\n";
-    sometext += "So when you finish one portion of work and update the tracker, the material param will deminish\n";
-    sometext += "The total will stay the same and like this the program can calculate your progress and give feedback\n";
-    sometext += "\nYou can always check your setup in the directory data and the files metadata.txt and data.csv\n";
-    sometext += "\n\t !!! BE CAREFUL TO NOT RUN THE SETUP SCRIPT AGAIN OR ELSE YOUR PREVIOUS DATA MIGHT BE OVERWRITTEN !!!\n";
-    printTextWithDelay(sometext, default_delay);
-
-    printExample();
+    Data example_obj(example_path, exampleMetapath);
+    example_obj.viewAllData();
 }
 
 std::string takeInput(){

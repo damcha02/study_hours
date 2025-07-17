@@ -25,9 +25,10 @@ class Data {
         std::map<std::string, std::vector<std::string>> all_data_m;
         std::map<std::string, std::vector<std::string>> label_data_m;
         std::set<std::string> subjects_m; 
-        std::string filepath_m;
+        std::string data_filepath_m;
+        std::string metadata_filepath_m;
     public:
-        Data(std::string_view filepath); 
+        Data(std::string_view data_filepath, std::string_view metadata_filepath); 
         void readData();
         std::string chooseSubject();
         std::string chooseAction(std::string subject);

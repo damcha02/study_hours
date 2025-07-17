@@ -1,0 +1,65 @@
+#####################################################################################################################
+
+        Instructados, please read carefully for a good setup
+
+#####################################################################################################################
+
+
+You will be asked questions, please answer them as careful as possible,
+ofc you can always come back and change your data files, but wouldn't it be
+nice to have it work at the first try and not worry about it anymore?
+
+The main points to consider:
+
+    1. The total is always the total of everything combined, wheter it's exams,
+       exercises, lectures and whatnot. It is NOT how much you have left in total,
+       but rather how much work in total there is.
+
+    2. A parameter is either exam, lecture, exercise or other material that you
+       want to do for the specific subject. It shows how much work you have left to do.
+
+    3. Unit is the type of thing you measure the parameter in. If you want to measure
+       some parameters in time, please stick to either minutes for all parameters of 
+       a certain subject, or use hours if you don't want to have a parameter measured in time. 
+       Else it will not math the total unit, which is mostly just material. (see example 1 & 2 below).
+
+    4. After the setup is completed, do NOT run the setup script again. Only edit data in the data files.
+       You can find the data files in the folder data, labeled data.csv and .metadata.txt.
+
+
+
+#####################################################################################################################
+DISCLAIMER: THE EXAMPLES ARE JUST FOR THE GENERARL IDEA, THE TRACKER HAS A DIFFERENT LAYOUT
+
+-----------------------------------------------------
+Example 1: measuring progress with time for a subject
+
+subject name: NUMPDE
+Total:        Total         5000 minutes
+parameter 1:  Videos        2300 minutes 
+parameter 2:  Exercises       2700 minutes
+
+This is a valid example for a subject setup 
+-----------------------------------------------------
+Example 2: measuring progress with different measurements
+
+subject name: NUMPDE
+Total:        Total         10 material
+parameter 1:  Videos        2300 minutes
+parameter 2:  Exercises     8 Exercises
+
+This is invalid, because the unit of the Total parameter and the unit of the Videos mismatch
+
+if this is a case for one of your subject use the amont of videos rather than time, or in the worst case
+you can use hours instead of minutes. (see Ex. 3)
+-----------------------------------------------------
+Example 3: measuring progress with time in hours and other measurements
+
+subject name: NUMPDE
+Total:        Total         46.3 material
+parameter 1:  Videos        38.3 hours
+parameter 2:  Exercises     8 Exercises
+
+This is a valid example for a subject setup.
+-----------------------------------------------------
+#####################################################################################################################

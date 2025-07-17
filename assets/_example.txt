@@ -1,0 +1,4 @@
+Fluid,Total,exercises,Fluid 1,exercises,Fluid 2,exercises,Past exams,exams
+NUMPDE,Total,mins,Videos,mins,Exercises,mins,Past exams,exams
+StatPhys,Total,material,Videos,lectures,Exercises,exercises,Past exams,exams
+WUS,Total,exercises,Exercises,exercises,Past exams,exams
