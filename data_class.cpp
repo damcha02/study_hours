@@ -8,18 +8,17 @@ std::string convertMinsToHrs(std::string& minutes){
     return hours;
 }
 
-Data::Data(std::string_view filepath) : filepath_m(filepath){
-    filepath_m = "../" + filepath_m;
-
+Data::Data(std::string_view data_filepath, std::string_view metadata_filepath) : data_filepath_m(data_filepath),
+                                                                                 metadata_filepath_m(metadata_filepath){
     readData(); 
     readMetaData();
 } //ctor
 
 void Data::readData(){
     std::fstream fin;
-    fin.open(filepath_m, std::ios::in);
+    fin.open(data_filepath_m, std::ios::in);
     if (!fin.is_open()) {
-        std::cout << "Failed to open file: " << filepath_m << std::endl;
+        std::cout << "Failed to open file: " << data_filepath_m << std::endl;
         return;
     }
     std::vector<std::string> data;
@@ -95,14 +94,13 @@ std::string Data::chooseAction(std::string subject){
 
 void Data::readMetaData(){
     //reads from .metadata.txt
-    std::string metadata = "../data/.metadata.txt";
+    // std::string metadata = "../data/.metadata.txt";
     std::fstream fin;
-    fin.open(metadata, std::ios::in);
+    fin.open(metadata_filepath_m, std::ios::in);
     if (!fin.is_open()) {
-        std::cout << "Failed to open file: " << metadata << std::endl;
+        std::cout << "Failed to open file: " << metadata_filepath_m << std::endl;
         return;
     }
-
     std::vector<std::string> data;
     std::string line, word;
 
@@ -112,11 +110,14 @@ void Data::readMetaData(){
         std::stringstream s(line);
 
         while(getline(s, word, ',')){
-            
             data.push_back(word);
         }
         subjects_m.insert(data[0]);
         label_data_m[data[0]] = std::vector<std::string>(data.begin() + 1, data.end());
+    }
+    if(label_data_m.size() < 1) {
+        std::cout << "there is a lack of metadata" << std::endl; 
+        std::exit(EXIT_FAILURE);
     }
 }
 void Data::plan(std::string subject){
@@ -155,6 +156,7 @@ std::vector<int> findOutAlignment(std::vector<std::string> metadata, int buffer 
     std::vector<int> aligment;
     // int longest_string_size = 0;
     // int longest_string_idx = 0;
+
     aligment.push_back(metadata[0].size() + 5);
     aligment.push_back(26 - metadata[0].size());
     for(int i = 2; i < metadata.size() - 1; i += 2){
@@ -254,7 +256,7 @@ void Data::editData(std::string subject){
     else {std::cout << "invalid option, please run the program again." << std::endl; return;}
 
     //write to file
-    std::ofstream fout(filepath_m);
+    std::ofstream fout(data_filepath_m);
     for(auto i : all_data_m){
         fout << i.first << ",";
         for(auto j : i.second){

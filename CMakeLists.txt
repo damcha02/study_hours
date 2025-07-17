@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(tracker main.cpp data_class.cpp)
 
-add_executable(setup setup.cpp)
+add_executable(setup setup.cpp data_class.cpp)

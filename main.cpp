@@ -5,7 +5,8 @@
 #include <cstdlib>
 
 
-const constexpr std::string_view path                = "data/data.csv";
+const constexpr std::string_view data_path                = "../data/data.csv";
+const constexpr std::string_view metadata_path       = "../data/.metadata.txt";
 static constexpr int             default_delay       = 45;
 
 void printTextWithDelay(std::string_view text, int delay){
@@ -45,7 +46,7 @@ int main(){
 
     // printTextWithDelay("WHAT DO YOU WANT TO DO?");
     
-    Data data_obj(path);
+    Data data_obj(data_path, metadata_path);
     bool done = false;
     while(!done){
         std::string subject = data_obj.chooseSubject();
