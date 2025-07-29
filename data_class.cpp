@@ -183,7 +183,8 @@ void Data::viewData(std::string subject){
     }
     std::cout << std::setw(alignment[0] + 5) << "Total Left" << std::setw(alignment[1] - 5) << "" << total_left << " " << label_data_m[subject][1];
     if(label_data_m[subject][1] == "mins"){
-        std::cout << std::setw(5) << "" << convertMinsToHrs(all_data_m[subject][0]) << " hrs";
+        std::string mins = std::to_string(total_left);
+        std::cout << std::setw(5) << "" << convertMinsToHrs(mins) << " hrs";
     }
     std::cout << std::endl;
 
