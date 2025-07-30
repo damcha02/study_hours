@@ -1,11 +1,12 @@
 #include "data_class.hpp"
 
 
-std::string convertMinsToHrs(std::string& minutes){
+double convertMinsToHrs(std::string& minutes){
     double mins = std::stod(minutes);
     double hrs = mins / 60.0;
+    
     std::string hours = std::to_string(hrs);
-    return hours;
+    return hrs;
 }
 
 Data::Data(std::string_view data_filepath, std::string_view metadata_filepath) : data_filepath_m(data_filepath),
@@ -130,7 +131,7 @@ void Data::plan(std::string subject){
     std::string totalstr = std::to_string(total_left);
     std::cout << "\nTotal left: " << total_left << " " << label_data_m[subject][1];
     if(label_data_m[subject][1] == "mins") {
-        std::cout << " or " << convertMinsToHrs(totalstr) << " hrs.";
+        std::cout << " or " << std::setprecision(3) << convertMinsToHrs(totalstr) << " hrs.";
     }
     std::cout << std::endl;
     std::cout << std::endl;
@@ -147,7 +148,7 @@ void Data::plan(std::string subject){
     << work_per_day << " " << label_data_m[subject][1] << "/day";
     std::string workstr = std::to_string(work_per_day);
     if(label_data_m[subject][1] == "mins") {
-        std::cout << " or " << convertMinsToHrs(workstr) << " hrs/day";
+        std::cout << " or " << std::setprecision(3) << convertMinsToHrs(workstr) << " hrs/day";
     }
     std::cout << std::endl;
 } 
@@ -184,14 +185,14 @@ void Data::viewData(std::string subject){
     std::cout << std::setw(alignment[0] + 5) << "Total Left" << std::setw(alignment[1] - 5) << "" << total_left << " " << label_data_m[subject][1];
     if(label_data_m[subject][1] == "mins"){
         std::string mins = std::to_string(total_left);
-        std::cout << std::setw(5) << "" << convertMinsToHrs(mins) << " hrs";
+        std::cout << std::setw(5) << "" << std::setprecision(3) << convertMinsToHrs(mins) << " hrs";
     }
     std::cout << std::endl;
 
     for(int i = 1, j = 2; i < all_data_m[subject].size(); ++i, j += 2){
         std::cout << std::setw(alignment[j]) << label_data_m[subject][j] << std::setw(alignment[j + 1]) << "" << all_data_m[subject][i] << " " << label_data_m[subject][j + 1];
         if(label_data_m[subject][j + 1] == "mins"){
-            std::cout << std::setw(5) << "" << convertMinsToHrs(all_data_m[subject][i]) << " hrs";
+            std::cout << std::setw(5) << "" << std::setprecision(3) << convertMinsToHrs(all_data_m[subject][i]) << " hrs";
         }
         std::cout << std::endl;
     }

@@ -18,7 +18,7 @@
 #include <thread>
 
 //not from class Data:
-std::string convertMinsToHrs(std::string& minutes);
+double convertMinsToHrs(std::string& minutes);
 
 class Data {
     private:
